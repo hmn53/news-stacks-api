@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Models.Dto
 {
-    public class ArticleWriterDto
+    public class PublisherSeoDto
     {
         [Required]
-        public string Headline { get; set; }
-        public string Description { get; set; }
-
-        [Required]
-        public string Body { get; set; }
-
-        
+        public string MetaData { get; set; }
     }
 }

@@ -41,6 +41,9 @@ namespace NewsStacksAPI
                 .AddScoped<IAccountRepository, AccountRepository>();
             services
                 .AddScoped<IArticleWriterRepository, ArticleWriterRepository>();
+            services
+                .AddScoped<IArticlePublisherRepository, ArticlePublisherRepository>();
+
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);

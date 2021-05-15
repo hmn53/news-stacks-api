@@ -14,12 +14,10 @@ namespace NewsStacksAPI.Repository
     public class ArticleWriterRepository : IArticleWriterRepository
     {
         private readonly ApplicationDbContext _db;
-        private readonly AppSettings _appSettings;
 
-        public ArticleWriterRepository(ApplicationDbContext db, IOptions<AppSettings> appSettings)
+        public ArticleWriterRepository(ApplicationDbContext db)
         {
             _db = db;
-            _appSettings = appSettings.Value;
         }
         public bool Assign(Article article, Writer writer)
         {

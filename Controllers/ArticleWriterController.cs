@@ -28,8 +28,8 @@ namespace NewsStacksAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("articles/{articleId:int}", Name ="GetArticleById")]
-        public IActionResult GetArticleById(int articleId)
+        [HttpGet("articles/{articleId:int}", Name ="GetArticleByIdWriter")]
+        public IActionResult GetArticleByIdWriter(int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
             if(article == null)
@@ -40,7 +40,7 @@ namespace NewsStacksAPI.Controllers
         }
 
         [HttpGet("articles/assigned")]
-        public IActionResult GetAssignedArticle()
+        public IActionResult GetAssignedArticleWriter()
         {
             var id = _awrepo.GetWriter(User.Identity.Name).Id;
             List<Article> articles = (List<Article>)_awrepo.GetWriterArticles(id);
@@ -49,7 +49,7 @@ namespace NewsStacksAPI.Controllers
         }
 
         [HttpGet("articles/all")]
-        public IActionResult GetAllArticles()
+        public IActionResult GetAllArticlesWriter()
         {
             List<Article> articles = (List<Article>)_awrepo.GetAllArticles();
 
@@ -77,17 +77,13 @@ namespace NewsStacksAPI.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            foreach (var tag in model.Tags)
-            {
-                _awrepo.CreateTag(article, tag.Title);
-            }
 
             if (!_awrepo.Assign(article, writer))
             {
                 ModelState.AddModelError("", "Error while assigning article to writer");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetArticleById", new { articleId = article.Id }, article);
+            return CreatedAtRoute("GetArticleByIdWriter", new { articleId = article.Id }, article);
         }
 
         [HttpPut("article/{articleId:int}")]
@@ -123,10 +119,10 @@ namespace NewsStacksAPI.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            foreach (var tag in model.Tags)
-            {
-                _awrepo.CreateTag(article, tag.Title);
-            }
+            //foreach (var tag in model.Tags)
+            //{
+            //    _awrepo.CreateTag(article, tag.Title);
+            //}
 
             if (!_awrepo.Assign(article, writer))
             {
