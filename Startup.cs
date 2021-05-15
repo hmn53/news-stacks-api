@@ -61,6 +61,8 @@ namespace NewsStacksAPI
             {
                 endpoints.MapControllers();
             });
+
+            ApplicationDbInitializer.Seed(app);
         }
     }
 }
