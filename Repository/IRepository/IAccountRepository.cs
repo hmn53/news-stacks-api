@@ -1,9 +1,5 @@
 ﻿using NewsStacksAPI.Models;
 using NewsStacksAPI.Models.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Repository.IRepository
 {

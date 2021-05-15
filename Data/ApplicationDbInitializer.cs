@@ -2,9 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NewsStacksAPI.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Data
 {
@@ -12,12 +10,12 @@ namespace NewsStacksAPI.Data
     {
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
-            using(var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider
                     .GetService<ApplicationDbContext>();
 
-                if(context.Accounts.Any() && context.Articles.Any())
+                if (context.Accounts.Any() && context.Articles.Any())
                 {
                     return;
                 }
