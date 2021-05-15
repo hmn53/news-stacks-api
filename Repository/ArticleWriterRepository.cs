@@ -57,6 +57,27 @@ namespace NewsStacksAPI.Repository
             return Save();
         }
 
+        public bool CreateTag(Article article, string title)
+        {
+            Tag tag = GetTag(title);
+            if(tag == null)
+            {
+                tag = new Tag
+                {
+                    Title = title
+                };
+                _db.Tags.Add(tag);
+                Save();
+            }
+            var articleTags = _db.Articles.Include(a => a.Tags)
+                .Single(x => x.Id == article.Id);
+            if (!articleTags.Tags.Contains(tag))
+            {
+                articleTags.Tags.Add(tag);
+            }
+            return Save();
+        }
+
         public bool Delete(Article article)
         {
             _db.Articles.Remove(article);
@@ -78,7 +99,14 @@ namespace NewsStacksAPI.Repository
         public Article GetArticle(int articleId)
         {
             return _db.Articles
+                .Include(x => x.Tags)
+                .Include(x => x.Writers)
                 .SingleOrDefault(article => article.Id == articleId);
+        }
+
+        public Tag GetTag(string title)
+        {
+            return _db.Tags.SingleOrDefault(tag => tag.Title.Equals(title));
         }
 
         public Writer GetWriter(string username)

@@ -18,5 +18,9 @@ namespace NewsStacksAPI.Repository.IRepository
         public Writer GetWriter(string username);
         bool CheckWriter(Article article, Writer writer);
         bool Save();
+
+        Tag GetTag(string title);
+        bool CreateTag(Article article, string title);
+
     }
 }

@@ -69,11 +69,17 @@ namespace NewsStacksAPI.Controllers
             article.LastModifiedBy = writer.Id;
             article.CreatedAt = curTimeZone.ToLocalTime(DateTime.Now);
             article.LastModified = curTimeZone.ToLocalTime(DateTime.Now);
-
+            article.Tags = null;
+            
             if (!_awrepo.Create(article))
             {
                 ModelState.AddModelError("", "Error while creating Article");
                 return StatusCode(500, ModelState);
+            }
+
+            foreach (var tag in model.Tags)
+            {
+                _awrepo.CreateTag(article, tag.Title);
             }
 
             if (!_awrepo.Assign(article, writer))
@@ -106,7 +112,8 @@ namespace NewsStacksAPI.Controllers
             article.Headline = model.Headline;
             article.Description = model.Description;
             article.Body = model.Body;
-            article.Tags = model.Tags;
+
+            
             article.LastModifiedBy = writer.Id;
             article.LastModified = curTimeZone.ToLocalTime(DateTime.Now);
 
@@ -115,6 +122,12 @@ namespace NewsStacksAPI.Controllers
                 ModelState.AddModelError("", "Error while editing Article");
                 return StatusCode(500, ModelState);
             }
+
+            foreach (var tag in model.Tags)
+            {
+                _awrepo.CreateTag(article, tag.Title);
+            }
+
             if (!_awrepo.Assign(article, writer))
             {
                 ModelState.AddModelError("", "Error while assigning article to writer");

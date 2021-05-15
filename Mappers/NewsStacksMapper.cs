@@ -13,6 +13,7 @@ namespace NewsStacksAPI.Mappers
         public NewsStacksMapper()
         {
             CreateMap<Article, ArticleWriterDto>().ReverseMap();
+            CreateMap<Tag, TagDto>().ReverseMap();
         }
     }
 }

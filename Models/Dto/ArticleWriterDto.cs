@@ -16,6 +16,6 @@ namespace NewsStacksAPI.Models.Dto
         public string Body { get; set; }
 
         [Required]
-        public List<Tag> Tags { get; set; }
+        public List<TagDto> Tags { get; set; }
     }
 }
