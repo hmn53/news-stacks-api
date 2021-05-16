@@ -88,13 +88,14 @@ namespace NewsStacksAPI.Repository
 
         public ICollection<Article> GetAllArticles()
         {
-            return _db.Articles.ToList();
+            return _db.Articles
+                .Include(x => x.Writers)
+                .ToList();
         }
 
         public Article GetArticle(int articleId)
         {
             return _db.Articles
-                .Include(x => x.Tags)
                 .Include(x => x.Writers)
                 .SingleOrDefault(article => article.Id == articleId);
         }
@@ -116,7 +117,9 @@ namespace NewsStacksAPI.Repository
         {
             return _db.Articles
                 .Where(article => article.Writers
-                .Any(writer => writer.Id == writerId)).ToList();
+                .Any(writer => writer.Id == writerId))
+                .Include(x => x.Writers)
+                .ToList();
         }
 
         public bool Save()

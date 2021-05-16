@@ -13,6 +13,7 @@ using NewsStacksAPI.Repository;
 using NewsStacksAPI.Repository.IRepository;
 using NewsStacksAPI.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -88,6 +89,34 @@ namespace NewsStacksAPI
                             Name = "Hatim Nalawala"
                         }
                     });
+                c.AddSecurityDefinition("Bearer"
+                    , new OpenApiSecurityScheme
+                    {
+                        Description = "Enter 'Bearer' [space] token.\r\n\r\nExample: \"Bearer eiasofa23dfs\"",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
+
                 var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlCommentFilePath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
                 c.IncludeXmlComments(xmlCommentFilePath);

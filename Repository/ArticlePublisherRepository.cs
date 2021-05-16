@@ -40,7 +40,10 @@ namespace NewsStacksAPI.Repository
 
         public ICollection<Article> GetAllArticles()
         {
-            return _db.Articles.Where(article => article.IsSubmitted == true).ToList();
+            return _db.Articles.Where(article => article.IsSubmitted == true)
+                .Include(x => x.Tags)
+                .Include(x => x.Publishers)
+                .ToList();
         }
 
         public Article GetArticle(int articleId)
@@ -60,7 +63,10 @@ namespace NewsStacksAPI.Repository
         {
             return _db.Articles
                 .Where(article => article.Publishers
-                .Any(p => p.Id == publisherId)).ToList();
+                .Any(p => p.Id == publisherId))
+                .Include(x => x.Publishers)
+                .Include(x => x.Tags)
+                .ToList();
         }
 
         public bool Save()
