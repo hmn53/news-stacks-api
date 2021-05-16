@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using NewsStacksAPI.Models.Dto;
 using NewsStacksAPI.Repository.IRepository;
 using System;
@@ -17,7 +18,14 @@ namespace NewsStacksAPI.Controllers
             _accountRepo = accountRepo;
         }
 
+        /// <summary>
+        /// Login route
+        /// </summary>
+        /// <param name="model">Login properties</param>
+        /// <returns></returns>
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Login([FromBody] LoginDto model)
         {
             if (!User.Identity.IsAuthenticated)
@@ -33,7 +41,14 @@ namespace NewsStacksAPI.Controllers
             return Ok(new { message = "Already logged in" });
         }
 
+        /// <summary>
+        /// Register a new user
+        /// </summary>
+        /// <param name="model">Register properties</param>
+        /// <returns></returns>
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Register([FromBody] RegisterDto model)
         {
             string[] RoleTypes = { "Reader", "Writer", "Publisher" };

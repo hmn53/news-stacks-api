@@ -12,6 +12,9 @@ using NewsStacksAPI.Mappers;
 using NewsStacksAPI.Repository;
 using NewsStacksAPI.Repository.IRepository;
 using NewsStacksAPI.Utils;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace NewsStacksAPI
@@ -74,7 +77,20 @@ namespace NewsStacksAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NewsStacksAPI", Version = "v1" });
+                c.SwaggerDoc("v1", 
+                    new OpenApiInfo 
+                    {   Title = "NewsStacksAPI", 
+                        Version = "v1",
+                        Description = "News Stacks API Backend Assignment",
+                        Contact = new OpenApiContact
+                        {
+                            Email = "hatim.nalawala987@gmail.com",
+                            Name = "Hatim Nalawala"
+                        }
+                    });
+                var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentFilePath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
+                c.IncludeXmlComments(xmlCommentFilePath);
             });
         }
 

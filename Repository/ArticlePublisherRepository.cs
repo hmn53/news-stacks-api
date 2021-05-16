@@ -100,5 +100,11 @@ namespace NewsStacksAPI.Repository
                 return false;
             }
         }
+
+        public bool Delete(Article article)
+        {
+            _db.Remove(article);
+            return Save();
+        }
     }
 }

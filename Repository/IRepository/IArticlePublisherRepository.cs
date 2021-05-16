@@ -15,6 +15,7 @@ namespace NewsStacksAPI.Repository.IRepository
         bool Save();
         bool CheckSubmitted(Article article);
         bool Assign(Article article, Publisher publisher);
+        bool Delete(Article article);
 
     }
 }

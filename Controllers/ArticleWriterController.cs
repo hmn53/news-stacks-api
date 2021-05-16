@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewsStacksAPI.Models;
 using NewsStacksAPI.Models.Dto;
@@ -25,8 +26,15 @@ namespace NewsStacksAPI.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a single article by Id
+        /// </summary>
+        /// <param name="articleId">Id of the article</param>
+        /// <returns></returns>
         [HttpGet("articles/{articleId:int}"
             , Name = "GetArticleByIdWriter")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Article))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetArticleByIdWriter(int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
@@ -37,24 +45,52 @@ namespace NewsStacksAPI.Controllers
             return Ok(article);
         }
 
+        /// <summary>
+        /// Get articles assigned to current writer
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("articles/assigned")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Article>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult GetAssignedArticleWriter()
         {
             var id = _awrepo.GetWriter(User.Identity.Name).Id;
             List<Article> articles = (List<Article>)_awrepo.GetWriterArticles(id);
+            if (articles == null || articles.Count == 0)
+            {
+                return NoContent();
+            }
 
             return Ok(articles);
         }
 
+        /// <summary>
+        /// Get all articles
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("articles/all")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Article>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult GetAllArticlesWriter()
         {
             List<Article> articles = (List<Article>)_awrepo.GetAllArticles();
+            if (articles == null || articles.Count == 0)
+            {
+                return NoContent();
+            }
 
             return Ok(articles);
         }
 
+        /// <summary>
+        /// Create an article
+        /// </summary>
+        /// <param name="model">Article properties</param>
+        /// <returns></returns>
         [HttpPost("article")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult CreateArticle(ArticleWriterDto model)
         {
             if (model == null)
@@ -84,7 +120,16 @@ namespace NewsStacksAPI.Controllers
             return CreatedAtRoute("GetArticleByIdWriter", new { articleId = article.Id }, article);
         }
 
+        /// <summary>
+        /// Update an article 
+        /// </summary>
+        /// <param name="articleId">Id of the article</param>
+        /// <param name="model">Article properties</param>
+        /// <returns></returns>
         [HttpPut("article/{articleId:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult UpdateArticle(int articleId, [FromBody] ArticleWriterDto model)
         {
             var article = _awrepo.GetArticle(articleId);
@@ -117,11 +162,6 @@ namespace NewsStacksAPI.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            //foreach (var tag in model.Tags)
-            //{
-            //    _awrepo.CreateTag(article, tag.Title);
-            //}
-
             if (!_awrepo.Assign(article, writer))
             {
                 ModelState.AddModelError("", "Error while assigning article to writer");
@@ -130,7 +170,15 @@ namespace NewsStacksAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete an article
+        /// </summary>
+        /// <param name="articleId">Id of the article</param>
+        /// <returns></returns>
         [HttpDelete("article/{articleId:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult DeleteArticle(int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
@@ -159,7 +207,15 @@ namespace NewsStacksAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Submit an article for publishing
+        /// </summary>
+        /// <param name="articleId"></param>
+        /// <returns></returns>
         [HttpPost("article/submit/{articleId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult SubmitArticle(int articleId)
         {
             var article = _awrepo.GetArticle(articleId);

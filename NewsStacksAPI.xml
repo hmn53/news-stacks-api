@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NewsStacksAPI</name>
+    </assembly>
+    <members>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.GetArticleByIdPublisher(System.Int32)">
+            <summary>
+            Get a single submitted article by articleId 
+            </summary>
+            <param name="articleId">Id of submitted article</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.GetAssignedArticlePublisher">
+            <summary>
+            Get all articles assigned to current publisher
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.GetAllArticlesPublisher">
+            <summary>
+            Get all submitted articles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.AddSeo(System.Int32,NewsStacksAPI.Models.Dto.PublisherSeoDto)">
+            <summary>
+            Add SEO details to a submitted article
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <param name="model">Metadata tags for SEO</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.AddTags(System.Int32,NewsStacksAPI.Models.Dto.PublisherTagDto)">
+            <summary>
+            Add Tags to a submitted article
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <param name="tags">Tags to add to the article</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.PublishArticle(System.Int32,NewsStacksAPI.Models.Dto.PublisherDateTimeDto)">
+            <summary>
+            Publish a submitted article
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <param name="model">DateTime in ISO to publish the article (Optional)</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticlePublisherController.DeleteArticle(System.Int32)">
+            <summary>
+            Delete a submitted and/or published article
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleReaderController.GetAllArticles">
+            <summary>
+            Get all the published articles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleReaderController.GetArticle(System.Int32)">
+            <summary>
+            Get a single article from articleId
+            </summary>
+            <param name="articleId">Id of the article (eg. 2)</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleReaderController.GetArticle(System.String)">
+            <summary>
+            Get article based on the tag
+            </summary>
+            <param name="tag">Tag to filter articles (eg. world)</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.GetArticleByIdWriter(System.Int32)">
+            <summary>
+            Get a single article by Id
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.GetAssignedArticleWriter">
+            <summary>
+            Get articles assigned to current writer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.GetAllArticlesWriter">
+            <summary>
+            Get all articles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.CreateArticle(NewsStacksAPI.Models.Dto.ArticleWriterDto)">
+            <summary>
+            Create an article
+            </summary>
+            <param name="model">Article properties</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.UpdateArticle(System.Int32,NewsStacksAPI.Models.Dto.ArticleWriterDto)">
+            <summary>
+            Update an article 
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <param name="model">Article properties</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.DeleteArticle(System.Int32)">
+            <summary>
+            Delete an article
+            </summary>
+            <param name="articleId">Id of the article</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.SubmitArticle(System.Int32)">
+            <summary>
+            Submit an article for publishing
+            </summary>
+            <param name="articleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.AuthenticationController.Login(NewsStacksAPI.Models.Dto.LoginDto)">
+            <summary>
+            Login route
+            </summary>
+            <param name="model">Login properties</param>
+            <returns></returns>
+        </member>
+        <member name="M:NewsStacksAPI.Controllers.AuthenticationController.Register(NewsStacksAPI.Models.Dto.RegisterDto)">
+            <summary>
+            Register a new user
+            </summary>
+            <param name="model">Register properties</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
