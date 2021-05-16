@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using NewsStacksAPI.Data;
 using NewsStacksAPI.Models;
 using NewsStacksAPI.Repository.IRepository;
-using NewsStacksAPI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Repository
 {
@@ -27,7 +24,7 @@ namespace NewsStacksAPI.Repository
                 articleWriters.Writers.Add(writer);
                 return Save();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -38,7 +35,7 @@ namespace NewsStacksAPI.Repository
         {
             var articleWriters = _db.Articles.Include(a => a.Writers).Single(x => x.Id == article.Id);
 
-            if(articleWriters.Writers == null)
+            if (articleWriters.Writers == null)
             {
                 return false;
             }
@@ -58,7 +55,7 @@ namespace NewsStacksAPI.Repository
         public bool CreateTag(Article article, string title)
         {
             Tag tag = GetTag(title);
-            if(tag == null)
+            if (tag == null)
             {
                 tag = new Tag
                 {
@@ -127,6 +124,6 @@ namespace NewsStacksAPI.Repository
             return _db.SaveChanges() >= 0;
         }
 
-        
+
     }
 }

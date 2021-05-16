@@ -5,7 +5,6 @@ using NewsStacksAPI.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Repository
 {
@@ -82,7 +81,7 @@ namespace NewsStacksAPI.Repository
 
         public bool CheckSubmitted(Article article)
         {
-            return (bool)article.IsSubmitted; 
+            return (bool)article.IsSubmitted;
         }
 
         public bool Assign(Article article, Publisher publisher)

@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewsStacksAPI.Models;
 using NewsStacksAPI.Models.Dto;
 using NewsStacksAPI.Repository.IRepository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Controllers
 {
     [Route("api/writer")]
     [ApiController]
-    [Authorize(Roles ="Writer")]
+    [Authorize(Roles = "Writer")]
     public class ArticleWriterController : ControllerBase
     {
         private readonly IArticleWriterRepository _awrepo;
@@ -28,11 +25,12 @@ namespace NewsStacksAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("articles/{articleId:int}", Name ="GetArticleByIdWriter")]
+        [HttpGet("articles/{articleId:int}"
+            , Name = "GetArticleByIdWriter")]
         public IActionResult GetArticleByIdWriter(int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
-            if(article == null)
+            if (article == null)
             {
                 return NotFound();
             }
@@ -59,7 +57,7 @@ namespace NewsStacksAPI.Controllers
         [HttpPost("article")]
         public IActionResult CreateArticle(ArticleWriterDto model)
         {
-            if(model == null)
+            if (model == null)
             {
                 return BadRequest(new { message = "Article cannot be null" });
             }
@@ -70,7 +68,7 @@ namespace NewsStacksAPI.Controllers
             article.CreatedAt = curTimeZone.ToLocalTime(DateTime.Now);
             article.LastModified = curTimeZone.ToLocalTime(DateTime.Now);
             article.Tags = null;
-            
+
             if (!_awrepo.Create(article))
             {
                 ModelState.AddModelError("", "Error while creating Article");
@@ -97,10 +95,10 @@ namespace NewsStacksAPI.Controllers
 
             if (article.IsSubmitted == true)
             {
-                return BadRequest(new { message= "Cannot update article after submitting" });
+                return BadRequest(new { message = "Cannot update article after submitting" });
             }
 
-            if(model == null)
+            if (model == null)
             {
                 return BadRequest(new { message = "Article cannot be null" });
             }
@@ -109,7 +107,7 @@ namespace NewsStacksAPI.Controllers
             article.Description = model.Description;
             article.Body = model.Body;
 
-            
+
             article.LastModifiedBy = writer.Id;
             article.LastModified = curTimeZone.ToLocalTime(DateTime.Now);
 
@@ -176,7 +174,7 @@ namespace NewsStacksAPI.Controllers
                 return BadRequest(new { message = "Not Authorised" });
             }
 
-            if(article.IsSubmitted == true)
+            if (article.IsSubmitted == true)
             {
                 return BadRequest(new { message = "Article already submitted" });
             }

@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewsStacksAPI.Models;
 using NewsStacksAPI.Models.Dto;
 using NewsStacksAPI.Repository.IRepository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NewsStacksAPI.Controllers
 {
@@ -56,15 +53,15 @@ namespace NewsStacksAPI.Controllers
         }
 
         [HttpPost("article/seo/{articleId:int}")]
-        public IActionResult AddSeo(int articleId, [FromBody]PublisherSeoDto model)
+        public IActionResult AddSeo(int articleId, [FromBody] PublisherSeoDto model)
         {
             Article article = _apRepo.GetArticle(articleId);
-            if(article == null)
+            if (article == null)
             {
                 return BadRequest(new { message = "Article doesnot exist or is not submitted" });
             }
 
-            if(model == null)
+            if (model == null)
             {
                 return BadRequest();
             }
@@ -113,7 +110,7 @@ namespace NewsStacksAPI.Controllers
         }
 
         [HttpPost("article/publish/{articleId:int}")]
-        public IActionResult PublishArticle(int articleId, [FromBody]PublisherDateTimeDto model)
+        public IActionResult PublishArticle(int articleId, [FromBody] PublisherDateTimeDto model)
         {
             Article article = _apRepo.GetArticle(articleId);
             if (article == null)
@@ -121,7 +118,7 @@ namespace NewsStacksAPI.Controllers
                 return BadRequest(new { message = "Article doesnot exist or is not submitted" });
             }
 
-            if(article.IsPublished == true)
+            if (article.IsPublished == true)
             {
                 return BadRequest(new { message = "Article already published" });
             }
@@ -129,7 +126,7 @@ namespace NewsStacksAPI.Controllers
             Publisher publisher = _apRepo.GetPublisher(User.Identity.Name);
 
             DateTime? publishTime = model.publishTime;
-            if(publishTime == null)
+            if (publishTime == null)
             {
                 publishTime = DateTime.Now;
             }
