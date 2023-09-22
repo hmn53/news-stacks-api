@@ -59,7 +59,7 @@ namespace NewsStacksAPI.Controllers
         [HttpGet("{articleId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReaderDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetArticle(int articleId)
+        public IActionResult GetArticle([FromRoute(Name = "articleId")] int articleId)
         {
             var article = _arrepo.GetArticle(articleId);
             if (article == null)
@@ -78,7 +78,7 @@ namespace NewsStacksAPI.Controllers
         [HttpGet("{tag}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ReaderDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult GetArticle(string tag)
+        public IActionResult GetArticle([FromRoute(Name = "tag")] string tag)
         {
             var articles = _arrepo.GetArticlesByTags(tag);
             if (articles == null || articles.Count == 0)

@@ -33,7 +33,7 @@ namespace NewsStacksAPI.Controllers
         [HttpGet("articles/{articleId:int}", Name = "GetArticleByIdPublisher")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Article))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetArticleByIdPublisher(int articleId)
+        public IActionResult GetArticleByIdPublisher([FromRoute(Name = "articleId")] int articleId)
         {
             var article = _apRepo.GetArticle(articleId);
             if (article == null)
@@ -91,7 +91,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult AddSeo(int articleId, [FromBody] PublisherSeoDto model)
+        public IActionResult AddSeo([FromRoute(Name = "articleId")] int articleId, [FromForm] PublisherSeoDto model)
         {
             Article article = _apRepo.GetArticle(articleId);
             if (article == null)
@@ -130,7 +130,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult AddTags(int articleId, [FromBody] PublisherTagDto tags)
+        public IActionResult AddTags([FromRoute(Name = "articleId")] int articleId, [FromForm] PublisherTagDto tags)
         {
             Article article = _apRepo.GetArticle(articleId);
             if (article == null)
@@ -166,7 +166,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult PublishArticle(int articleId, [FromBody] PublisherDateTimeDto model)
+        public IActionResult PublishArticle([FromRoute(Name = "articleId")] int articleId, [FromForm] PublisherDateTimeDto model)
         {
             Article article = _apRepo.GetArticle(articleId);
             if (article == null)
@@ -210,7 +210,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteArticle(int articleId)
+        public IActionResult DeleteArticle([FromRoute(Name = "articleId")] int articleId)
         {
             Article article = _apRepo.GetArticle(articleId);
             if (article == null)

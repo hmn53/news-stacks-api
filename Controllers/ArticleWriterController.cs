@@ -35,7 +35,7 @@ namespace NewsStacksAPI.Controllers
             , Name = "GetArticleByIdWriter")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Article))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetArticleByIdWriter(int articleId)
+        public IActionResult GetArticleByIdWriter([FromRoute(Name = "articleId")] int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
             if (article == null)
@@ -91,7 +91,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreateArticle(ArticleWriterDto model)
+        public IActionResult CreateArticle([FromForm] ArticleWriterDto model)
         {
             if (model == null)
             {
@@ -130,7 +130,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult UpdateArticle(int articleId, [FromBody] ArticleWriterDto model)
+        public IActionResult UpdateArticle([FromRoute(Name = "articleId")] int articleId, [FromForm] ArticleWriterDto model)
         {
             var article = _awrepo.GetArticle(articleId);
             if (article == null)
@@ -179,7 +179,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteArticle(int articleId)
+        public IActionResult DeleteArticle([FromRoute(Name = "articleId")] int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
             if (article == null)
@@ -216,7 +216,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult SubmitArticle(int articleId)
+        public IActionResult SubmitArticle([FromRoute(Name = "articleId")] int articleId)
         {
             var article = _awrepo.GetArticle(articleId);
             if (article == null)

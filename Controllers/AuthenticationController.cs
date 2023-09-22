@@ -26,7 +26,7 @@ namespace NewsStacksAPI.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Login([FromBody] LoginDto model)
+        public IActionResult Login([FromForm] LoginDto model)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -49,7 +49,7 @@ namespace NewsStacksAPI.Controllers
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Register([FromBody] RegisterDto model)
+        public IActionResult Register([FromForm] RegisterDto model)
         {
             string[] RoleTypes = { "Reader", "Writer", "Publisher" };
             if (!RoleTypes.Contains(model.Role))
