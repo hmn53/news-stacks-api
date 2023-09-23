@@ -38,7 +38,7 @@ namespace NewsStacksAPI
             );
 
             services.AddDbContext<ApplicationDbContext>
-               (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+               (options => options.UseInMemoryDatabase("demoDb"));
 
             services.AddAutoMapper(typeof(NewsStacksMapper));
             services

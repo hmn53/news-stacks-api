@@ -100,7 +100,7 @@
             <param name="model">Article properties</param>
             <returns></returns>
         </member>
-        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.UpdateArticle(System.Int32,NewsStacksAPI.Models.Dto.ArticleWriterDto)">
+        <member name="M:NewsStacksAPI.Controllers.ArticleWriterController.UpdateArticle(System.Int32,NewsStacksAPI.Models.Dto.ArticleWriterUpdateDto)">
             <summary>
             Update an article 
             </summary>
