@@ -3,7 +3,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>2e3c28dd-82f5-4026-983c-10cc5a8f0967</UserSecretsId>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>NewsStacksAPI.xml</DocumentationFile>
     <NoWarn>1701;1702;1591;0618</NoWarn>
   </PropertyGroup>
