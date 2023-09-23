@@ -10,7 +10,5 @@ namespace NewsStacksAPI.Models.Dto
 
         [Required]
         public string Body { get; set; }
-
-
     }
 }

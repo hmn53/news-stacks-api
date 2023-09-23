@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NewsStacksAPI.Data;
 using NewsStacksAPI.Models;
 using NewsStacksAPI.Models.Dto;
 using NewsStacksAPI.Repository.IRepository;
@@ -15,13 +16,14 @@ namespace NewsStacksAPI.Controllers
     [Authorize(Roles = "Writer")]
     public class ArticleWriterController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
         private readonly IArticleWriterRepository _awrepo;
         private readonly IMapper _mapper;
         private readonly TimeZone curTimeZone = TimeZone.CurrentTimeZone;
 
-
-        public ArticleWriterController(IArticleWriterRepository awrepo, IMapper mapper)
+        public ArticleWriterController(IArticleWriterRepository awrepo, IMapper mapper, ApplicationDbContext context)
         {
+            _context = context;
             _awrepo = awrepo;
             _mapper = mapper;
         }
@@ -130,7 +132,7 @@ namespace NewsStacksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult UpdateArticle([FromRoute(Name = "articleId")] int articleId, [FromForm] ArticleWriterDto model)
+        public IActionResult UpdateArticle([FromRoute(Name = "articleId")] int articleId, [FromForm] ArticleWriterUpdateDto model)
         {
             var article = _awrepo.GetArticle(articleId);
             if (article == null)
@@ -147,26 +149,37 @@ namespace NewsStacksAPI.Controllers
             {
                 return BadRequest(new { message = "Article cannot be null" });
             }
+
             var writer = _awrepo.GetWriter(User.Identity.Name);
-            article.Headline = model.Headline;
-            article.Description = model.Description;
-            article.Body = model.Body;
-
-
-            article.LastModifiedBy = writer.Id;
-            article.LastModified = curTimeZone.ToLocalTime(DateTime.Now);
-
-            if (!_awrepo.Edit(article))
+            if (!_awrepo.CheckWriter(article, writer))
             {
+                return BadRequest(new { message = "Not Authorised" });
+            }
+
+            _context.Database.BeginTransaction();
+
+            try
+            {
+                article.Headline = model.Headline ?? article.Headline;
+                article.Description = model.Description ?? article.Description;
+                article.Body = model.Body ?? article.Body;
+
+                article.LastModifiedBy = writer.Id;
+                article.LastModified = curTimeZone.ToLocalTime(DateTime.Now);
+
+                _awrepo.Edit(article);
+
+                _awrepo.Assign(article, writer);
+
+                _context.Database.CommitTransaction();
+            }
+            catch
+            {
+                _context.Database.RollbackTransaction();
                 ModelState.AddModelError("", "Error while editing Article");
                 return StatusCode(500, ModelState);
             }
 
-            if (!_awrepo.Assign(article, writer))
-            {
-                ModelState.AddModelError("", "Error while assigning article to writer");
-                return StatusCode(500, ModelState);
-            }
             return NoContent();
         }
 
