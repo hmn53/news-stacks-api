@@ -78,11 +78,12 @@ namespace NewsStacksAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", 
-                    new OpenApiInfo 
-                    {   Title = "NewsStacksAPI", 
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "NewsStacksAPI",
                         Version = "v1",
-                        Description = "News Stacks API Backend Assignment",
+                        Description = "News Stacks API",
                         Contact = new OpenApiContact
                         {
                             Email = "hatim.nalawala987@gmail.com",
@@ -126,7 +127,7 @@ namespace NewsStacksAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
